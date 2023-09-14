@@ -1,67 +1,29 @@
-<mat-toolbar color="primary">
-    <span (click)="searchBasedQuery()">ONEST-ED</span>
-    <div class="spacer"></div>
-    <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Search</mat-label>
-        <mat-icon matPrefix>search</mat-icon>
-        <input type="search" matInput (keyup.enter)="searchBasedQuery()" [(ngModel)]="searchQuery">
-        <button matSuffix class="send-btn" (click)="searchBasedQuery()"><mat-icon>send</mat-icon></button>
-    </mat-form-field>
+<mat-toolbar color="primary" class="main-tool-bar" *ngIf="!isPlayerInit">
+  <span (click)="searchBasedQuery()">ONEST-ED</span>
+  <mat-form-field class="example-full-width" appearance="outline">
+    <input type="search" matInput (keyup.enter)="searchBasedQuery()" [(ngModel)]="searchQuery"
+      placeholder="Search here">
+    <button matSuffix class="send-btn" mat-button (click)="searchBasedQuery()"><mat-icon>search</mat-icon></button>
+  </mat-form-field>
 </mat-toolbar>
-<mat-card *ngIf ="isContentInit && !loading"class="mainDiv">
-    <div class="cardContainer">
-        <!-- <mat-card class="card one" *ngFor="let cardList of searchContentList"> -->
-
-            <!-- <mat-card-title-group>
-                <mat-card-title>{{cardList?.title}}</mat-card-title>
-                <mat-card-subtitle class="custom-subtitle">{{cardList?.subTitle}}</mat-card-subtitle>
-                <img mat-card-lg-image src={{cardList?.img}} alt="onest">
-            </mat-card-title-group>
-            <mat-card-content>
-                {{cardList?.description}}
-            </mat-card-content>
-            <mat-card-actions>
-                <button  mat-button matTooltip="Play Content" (click)="openPlayerPage()"><mat-icon>play_circle_filled</mat-icon></button>
-              </mat-card-actions> -->
-
-
-              <div class="course-card"  (click)="openPlayerPage(cardList)" *ngFor="let cardList of searchContentList">
-                <img  src={{cardList?.img}} alt="Course Image">
-                <div class="course-details">
-                  <h3>{{cardList?.title}}</h3>
-                  <p>{{cardList?.subTitle}}</p>
-                  <div class="author"><b>Price: </b>  {{cardList?.description}}</div>
-                  <div class="author"><b>Grade: </b>Class 5</div>
-                  <div class="author"><b>Publisher: </b> NCERT</div>
-                  <div class="author"><b>Author Name: </b>Prince</div>
-                  <!-- <mat-card-actions> -->
-                  <!-- <button class="playbtn" mat-button (click)="openPlayerPage()" matTooltip="Play Content"><mat-icon>play_circle_filled</mat-icon></button> -->
-                <!-- </mat-card-actions>  -->
-                </div>
-              </div>
-              <!-- <div class="course-card">
-                <img src="https://s3-ap-south-1.amazonaws.com/onest-static-web-bucket/onest-website-media/2023/09/blog-image-1.png" alt="Course Image">
-                <div class="play-button">
-                  <mat-icon>play_circle_outline</mat-icon>
-                </div>
-                <div class="course-details">
-                  <h3>Course Title</h3>
-                  <p>Course Description goes here. This is a sample description for the course.</p>
-                  <div class="author">Author Name</div>
-                </div>
-              </div> -->
-
-
-
-        <!-- </mat-card> -->
+<div *ngIf="isContentInit && !loading" class="mainDiv">
+  <div class="cardContainer">
+    <div class="course-card" (click)="openPlayerPage(cardList)" *ngFor="let cardList of searchContentList">
+      <img src={{cardList?.img}} alt="Course Image">
+      <div class="course-details">
+        <h3>{{cardList?.title}}</h3>
+        <p>{{cardList?.subTitle}}</p>
+      </div>
     </div>
-</mat-card>
-<div *ngIf ="loading">
-<page-loader [loading] ="loading"></page-loader>
+  </div>
 </div>
-<mat-card *ngIf ="isPlayerInit">
-    <button matSuffix matTooltip="Back" class="back-btn" (click)="exitPlayerPage()"><mat-icon>arrow_back</mat-icon></button>
-    <br>
-    <br>
-    <lib-player [searchContentList]="selCardData"></lib-player>
+<div *ngIf="loading">
+  <page-loader [loading]="loading"></page-loader>
+</div>
+<mat-card *ngIf="isPlayerInit">
+  <button matSuffix matTooltip="Back" class="back-btn"
+    (click)="exitPlayerPage()"><mat-icon>arrow_back</mat-icon></button>
+  <br>
+  <br>
+  <lib-player [searchContentList]="selCardData"></lib-player>
 </mat-card>

@@ -44,7 +44,6 @@ export class PlayerComponent implements OnInit {
 
   loadVideoPlayer() {
     this.videoPlayer = document.createElement('sunbird-video-player');
-    // const playerConfig = JSON.stringify(samplePlayerConfig);
     samplePlayerConfig.metadata = { 
         mimeType: this.searchContentList.mimeType,
         artifactUrl: this.searchContentList.artifactUrl,
@@ -52,7 +51,7 @@ export class PlayerComponent implements OnInit {
         name: this.searchContentList.title,
         streamingUrl:this.searchContentList.artifactUrl,
         }
-    this.videoPlayer.setAttribute('player-config', );
+    this.videoPlayer.setAttribute('player-config',JSON.stringify(samplePlayerConfig) );
 
     this.videoPlayer.addEventListener('playerEvent', (event: any) => {
       console.log("On playerEvent", event);
