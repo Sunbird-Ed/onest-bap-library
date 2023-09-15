@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { samplePlayerConfig } from './videoPlayerConfig';
 import { playerConfig } from './pdfPlayerConfig';
+import { BapService } from '../../service/Bap/bap.service';
 
 @Component({
   selector: 'lib-player',
@@ -12,16 +13,20 @@ export class PlayerComponent implements OnInit {
   @ViewChild('video') video: any;
   @ViewChild('pdf') pdf: any;
   videoPlayer: any;
-  constructor() { }
+  enableSBPlayer:boolean =false;
+  enablePlayBtn:boolean=true;
+  listItem:any = [];
+  constructor(private bapService:BapService) { }
 
   ngOnInit(): void {
+    this.listItem = this.searchContentList.tag;
     console.log('ss',this.searchContentList)
   }
 
   ngAfterViewInit() {
     if(this.searchContentList.mimeType === 'video/mp4' || this.searchContentList.mimeType ==='video/webm') {
       this.loadVideoPlayer()
-    } else if(this.searchContentList.mimeType === 'video/mp4') {
+    } else if(this.searchContentList.mimeType === 'application/pdf') {
       this.loadPDFPlayer()
     } else {
       alert("unable to player ")
@@ -30,6 +35,13 @@ export class PlayerComponent implements OnInit {
 
   loadPDFPlayer() {
     const pdfElement = document.createElement('sunbird-pdf-player');
+    playerConfig.metadata = {
+      compatibilityLevel: 4,
+      artifactUrl: this.searchContentList.artifactUrl,
+      identifier: this.searchContentList.identifier,
+      name: this.searchContentList.title,
+      streamingUrl: this.searchContentList.artifactUrl,
+    }
     pdfElement.setAttribute('player-config', JSON.stringify(playerConfig));
 
     pdfElement.addEventListener('playerEvent', (event) => {
@@ -61,6 +73,24 @@ export class PlayerComponent implements OnInit {
       console.log("On telemetryEvent", event);
     });
     this.video.nativeElement.append(this.videoPlayer);
+  }
+  onPlayBtnClick() {
+    this.enableSBPlayer = true;
+    this.enablePlayBtn = false;
+    this.ngOnInit();
+    this.onBAPSelectCall();
+  }
+  onBAPSelectCall() {
+    let reqBody = {
+      transaction_id: this.searchContentList?.transaction_id,
+      bpp_uri: this.searchContentList?.bpp_uri,
+      bpp_id: this.searchContentList.bpp_id,
+      item_id: this.searchContentList.identifier,
+      fulfillment_id: "prince123"
+    }
+    this.bapService.onBAPSelectCall('https://staging.sunbirded.org/onest/bap/select',reqBody).subscribe(x=> {
+      console.log('seelct',x);
+    });
   }
 
 }

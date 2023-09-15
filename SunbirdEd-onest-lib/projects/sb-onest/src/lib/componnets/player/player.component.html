@@ -12,9 +12,39 @@
     </div>
     </div>
 </div> -->
+  <!-- <div class="course-card">
+    <img src="https://s3-ap-south-1.amazonaws.com/onest-static-web-bucket/onest-website-media/2023/09/blog-image-1.png" alt="Course Image">
+    <div class="play-button">
+      <mat-icon>play_circle_outline</mat-icon>
+    </div>
+    <div class="course-details">
+      <h3>Course Title</h3>
+      <p>Course Description goes here. This is a sample description for the course.</p>
+      <div class="author">Author Name</div>
+    </div>
+  </div>
+   -->
+<h4>Title : {{searchContentList?.title}}</h4>
+<br>
+<div class="container">
+<!-- <div *ngIf="enablePlayBtn" class="playVideo">
+  <button class="play-button" (click) ="onPlayBtnClick()"></button>
+</div> -->
+<!-- <div *ngIf="enableSBPlayer"> -->
+<div class="video" #video *ngIf="searchContentList.mimeType === 'video/mp4' || searchContentList.mimeType ==='video/webm'" ></div>
+<div class="pdf" #pdf class="pdf-player-container" *ngIf="searchContentList.mimeType === 'application/pdf'"> </div>
+<!-- </div> -->
+<div class="description">
+  <div *ngFor="let item of listItem" class="item-container">
+    <div class="item-value">{{ item?.descriptor.name }}</div>
+    <div class="item-description">{{ item?.value }}</div>
+  </div>
+</div>
+</div>
 
 
-<div #video *ngIf="searchContentList.mimeType === 'video/mp4' || searchContentList.mimeType ==='video/webm'" ></div>
+<!-- new -->
 
-<div #pdf class="pdf-player-container" *ngIf="searchContentList.mimeType === 'application/pdf'"></div>
-
+<!-- <div class="center-container">
+  <button class="play-button"></button>
+</div> -->

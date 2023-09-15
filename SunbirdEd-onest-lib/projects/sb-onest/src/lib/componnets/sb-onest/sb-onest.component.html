@@ -1,25 +1,65 @@
+<!-- header toolbar -->
 <mat-toolbar color="primary" class="main-tool-bar" *ngIf="!isPlayerInit">
-  <span (click)="searchBasedQuery()">ONEST-ED</span>
+  <span style="color: #0f75bc;" (click)="searchBasedQuery()">ONEST-ED</span>
   <mat-form-field class="example-full-width" appearance="outline">
     <input type="search" matInput (keyup.enter)="searchBasedQuery()" [(ngModel)]="searchQuery"
       placeholder="Search here">
     <button matSuffix class="send-btn" mat-button (click)="searchBasedQuery()"><mat-icon>search</mat-icon></button>
   </mat-form-field>
 </mat-toolbar>
+
+<!-- Description  -->
+
+
+<div *ngIf="searchContentList.length === 0" class="library-section">
+  <h2>Use SunbirdED to discover content from ONEST network</h2>
+  <p>
+    SunbirdED is now integrated with the ONEST network to enable learners to discover content from
+    multiple trusted content providers across the network
+  </p>
+  <img src="https://onest.network/images/2023/07/13/illustration.png" alt="Course Image">
+  <p>
+    Sunbird ED provides a diverse collection of content, including courses,
+    videos, documents, and more. Users can search, filter, and explore this vast
+    repository to enhance their learning experience.
+  </p>
+  <p>
+    ONEST's integration with Sunbird ED aims to provide a comprehensive
+    learning experience for users, enabling them to access quality educational
+    materials from various sources.
+  </p>
+  <p>
+    Whether you're a student, educator, or lifelong learner, the Sunbird ED
+    integration in ONEST offers a valuable resource for acquiring knowledge and
+    skills across a wide range of subjects and disciplines.
+  </p>
+</div>
+
+
+<!-- Course card list -->
+
 <div *ngIf="isContentInit && !loading" class="mainDiv">
   <div class="cardContainer">
     <div class="course-card" (click)="openPlayerPage(cardList)" *ngFor="let cardList of searchContentList">
       <img src={{cardList?.img}} alt="Course Image">
       <div class="course-details">
-        <h3>{{cardList?.title}}</h3>
-        <p>{{cardList?.subTitle}}</p>
+        <h5 class="trimTitle">{{cardList?.title}}</h5>
+        <p class="trimDesc">{{cardList?.subTitle}}</p>
+        <p><b>Provider: </b>{{cardList?.provider}}</p>
+        <p><b>Mime Type: </b>{{cardList?.mimeType}}</p>
       </div>
     </div>
   </div>
 </div>
+
+<!-- page loder -->
+
 <div *ngIf="loading">
   <page-loader [loading]="loading"></page-loader>
 </div>
+
+<!-- player page with back button -->
+
 <mat-card *ngIf="isPlayerInit">
   <button matSuffix matTooltip="Back" class="back-btn"
     (click)="exitPlayerPage()"><mat-icon>arrow_back</mat-icon></button>

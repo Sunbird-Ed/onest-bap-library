@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { PlayerComponent } from './componnets/player/player.component';
 import { PageLoaderComponent } from './componnets/page-loader/page-loader.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     MatCardModule,
     MatProgressSpinnerModule,
     HttpClientModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSnackBarModule
     
 
   ],

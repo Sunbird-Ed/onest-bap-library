@@ -29,16 +29,6 @@
   color: var(--primary-color);
 }
 
-.cardContainer {
-  width: 100%;
-  color: black;
-  margin-right: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-}
 
 .card {
   margin-bottom: 8px;
@@ -76,7 +66,9 @@
   color: white;
   top: 0;
   z-index: 1;
-  background: rgb(83, 163, 159) !important;
+  /* background: rgb(83, 163, 159) !important; */
+  background: aliceblue;
+  
   position: sticky;
 }
 
@@ -101,18 +93,40 @@
   background-color: aliceblue;
 }
 
-/* new course card  */
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: space-between;
+}
 
 .course-card {
-  position: relative;
+  flex: 0 1 calc(18.33% - 10px);
+  margin: 10px;
   border-radius: 0.5rem;
+  padding: 8px;
+  box-sizing: border-box;
+  max-width: 34vh;
+  min-width: 34vh;
+  max-height: 40vh;
+  min-height: 40vh;
+  background: #fff; 
   box-shadow: 0px 0px 11px #000000d4;
-  overflow: hidden;
   transition: transform 0.2s;
   cursor: pointer;
-  background: #fff;
   margin-bottom: 1rem;
-  height: 15rem;
+}
+
+
+@media (max-width: 767px) {
+  .course-card  {
+    flex: 0 1 calc(50% - 10px); /* Set cards to 50% width on smaller screens */
+  }
+}
+
+@media (max-width: 479px) {
+  .course-card  {
+    flex: 0 1 calc(100% - 10px); /* Set cards to full width on even smaller screens */
+  }
 }
 
 .course-card:hover {
@@ -122,29 +136,13 @@
 .course-card img {
   display: block;
   border-bottom: 2px solid #f5f5f5;
-  max-width: 30vh;
-  min-width: 30vh;
+  max-width: 32vh;
+  min-width: 32vh;
   max-height: 20vh;
   min-height: 20vh;
+  border-radius: 0.5rem;
 }
 
-.play-button {
-  position: absolute;
-  top: 29%;
-  left: 48%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
-  padding: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.play-button mat-icon {
-  font-size: 27px;
-  color: #fff;
-}
 
 .course-details {
   padding: 16px;
@@ -192,4 +190,76 @@
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   background-color: white;
   border-radius: 5px;
+}
+
+ .trimDesc {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 70ch; 
+}
+/* .trimTitle {
+  overflow: hidden;
+  white-space: pre-line;
+  text-overflow: ellipsis;
+  max-width: 60ch; 
+}  */
+
+/* *****description*** */
+
+.library-section {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  align-items: center;
+  /* background: linear-gradient(180deg, #ffffff 0%, #edf0fd 80%); */
+
+  
+
+}
+
+.library-section h2 {
+  /* font-size: 24px;
+  color: #333;
+  margin-bottom: 10px; */
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  color: #0f75bc;
+
+}
+
+.library-section p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  
+}
+.library-section img {
+  /* font-size: 16px;
+  color: #666;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  margin-top: 0;
+  margin-bottom: 1rem; */
+  max-height: 50vh;
+    float: right;
+  
+}
+
+.library-section p:last-child {
+  margin-bottom: 0;
+}
+
+.back-btn {
+border-radius: 10vh;
+width: 10vh;
+background: azure;
+}
+.imgBg {
+  height: 50vh;
 }
