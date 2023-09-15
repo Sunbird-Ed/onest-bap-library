@@ -84,8 +84,7 @@ export class SbOnestComponent implements OnInit {
             tag: contentRes?.tags[0]?.list,
             transaction_id: this.searchContext?.transaction_id,
             bpp_uri: this.searchContext?.bpp_uri,
-            bpp_id: this.searchContext.bpp_id,
-            fulfillment_id: "prince123"
+            bpp_id: this.searchContext.bpp_id
           }
           this.searchContentList.push(content);
         })
@@ -101,7 +100,7 @@ export class SbOnestComponent implements OnInit {
 
     }, (error) => {
       console.log(error);
-      this.onestSnackBar.open(error?.error?.message, 'Close', {
+      this.onestSnackBar.open('No data found', 'Close', {
         duration: 3000,
       });
       this.loading = false;

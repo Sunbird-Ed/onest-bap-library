@@ -73,9 +73,11 @@
 }
 
 .pdf-player-container {
-  height: 80vh;
+  height: 70vh;
   margin: 2rem;
   box-shadow: 0 2px 10px 1px;
+  width: 50vw;
+
 }
 
 

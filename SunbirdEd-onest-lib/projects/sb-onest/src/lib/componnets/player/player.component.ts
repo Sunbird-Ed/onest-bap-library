@@ -9,18 +9,18 @@ import { BapService } from '../../service/Bap/bap.service';
   styleUrls: ['./player.component.css']
 })
 export class PlayerComponent implements OnInit {
-  @Input() searchContentList:any
+  @Input() searchContentList: any
   @ViewChild('video') video: any;
   @ViewChild('pdf') pdf: any;
   videoPlayer: any;
-  enableSBPlayer:boolean =false;
-  enablePlayBtn:boolean=true;
-  listItem:any = [];
-  constructor(private bapService:BapService) { }
+  enableSBPlayer: boolean = false;
+  enablePlayBtn: boolean = true;
+  listItem: any = [];
+  constructor(private bapService: BapService) { }
 
   ngOnInit(): void {
     this.listItem = this.searchContentList.tag;
-    console.log('ss',this.searchContentList)
+    console.log('ss', this.searchContentList)
   }
 
   ngAfterViewInit() {
@@ -49,14 +49,14 @@ export class PlayerComponent implements OnInit {
 
   loadVideoPlayer() {
     this.videoPlayer = document.createElement('sunbird-video-player');
-    samplePlayerConfig.metadata = { 
-        mimeType: this.searchContentList.mimeType,
-        artifactUrl: this.searchContentList.artifactUrl,
-        identifier: this.searchContentList.identifier,
-        name: this.searchContentList.title,
-        streamingUrl:this.searchContentList.artifactUrl,
-        }
-    this.videoPlayer.setAttribute('player-config',JSON.stringify(samplePlayerConfig) );
+    samplePlayerConfig.metadata = {
+      mimeType: this.searchContentList.mimeType,
+      artifactUrl: this.searchContentList.artifactUrl,
+      identifier: this.searchContentList.identifier,
+      name: this.searchContentList.title,
+      streamingUrl: '',
+    }
+    this.videoPlayer.setAttribute('player-config', JSON.stringify(samplePlayerConfig));
 
     this.videoPlayer.addEventListener('playerEvent', (event: any) => {
       console.log("On playerEvent", event);
@@ -72,14 +72,6 @@ export class PlayerComponent implements OnInit {
     this.enablePlayBtn = false;
     this.ngOnInit();
     this.onBAPSelectCall();
-
-    if(this.searchContentList.mimeType === 'video/mp4' || this.searchContentList.mimeType ==='video/webm') {
-      this.loadVideoPlayer()
-    } else if(this.searchContentList.mimeType === 'application/pdf') {
-      this.loadPDFPlayer()
-    } else {
-      alert("unable to player ")
-    }
   }
   onBAPSelectCall() {
     let reqBody = {
@@ -87,10 +79,22 @@ export class PlayerComponent implements OnInit {
       bpp_uri: this.searchContentList?.bpp_uri,
       bpp_id: this.searchContentList.bpp_id,
       item_id: this.searchContentList.identifier,
-      fulfillment_id: "prince123"
+      provider_id: this.searchContentList?.provider
     }
-    this.bapService.onBAPSelectCall('https://staging.sunbirded.org/onest/bap/select',reqBody).subscribe(x=> {
-      console.log('seelct',x);
+    this.bapService.onBAPSelectCall('https://staging.sunbirded.org/onest/bap/select', reqBody).subscribe(selResData => {
+      console.log('seelct', selResData.data.message.order.items[0].descriptor.media_files[0].mimetype);
+      console.log('this.searchContentList.mimeType', this.searchContentList.mimeType);
+      this.searchContentList.mimeType = selResData?.data?.message?.order?.items[0]?.descriptor?.media_files[0]?.mimetype;
+
+      this.searchContentList.artifactUrl = selResData?.data?.message?.order?.items[0]?.descriptor?.media_files[0]?.url;
+      console.log('this.searchContentList.artifactUrl', this.searchContentList.artifactUrl)
+      if (this.searchContentList.mimeType === 'video/mp4' || this.searchContentList.mimeType === 'video/webm') {
+        this.loadVideoPlayer()
+      } else if (this.searchContentList.mimeType === 'application/pdf') {
+        this.loadPDFPlayer()
+      } else {
+        alert("unable to player ")
+      }
     });
   }
 
