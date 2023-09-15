@@ -27,13 +27,13 @@
 <h4>Title : {{searchContentList?.title}}</h4>
 <br>
 <div class="container">
-<!-- <div *ngIf="enablePlayBtn" class="playVideo">
+<div *ngIf="enablePlayBtn" class="playVideo">
   <button class="play-button" (click) ="onPlayBtnClick()"></button>
-</div> -->
-<!-- <div *ngIf="enableSBPlayer"> -->
+</div>
+
 <div class="video" #video *ngIf="searchContentList.mimeType === 'video/mp4' || searchContentList.mimeType ==='video/webm'" ></div>
 <div class="pdf" #pdf class="pdf-player-container" *ngIf="searchContentList.mimeType === 'application/pdf'"> </div>
-<!-- </div> -->
+
 <div class="description">
   <div *ngFor="let item of listItem" class="item-container">
     <div class="item-value">{{ item?.descriptor.name }}</div>

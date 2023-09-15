@@ -24,13 +24,6 @@ export class PlayerComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    if(this.searchContentList.mimeType === 'video/mp4' || this.searchContentList.mimeType ==='video/webm') {
-      this.loadVideoPlayer()
-    } else if(this.searchContentList.mimeType === 'application/pdf') {
-      this.loadPDFPlayer()
-    } else {
-      alert("unable to player ")
-    }
   }
 
   loadPDFPlayer() {
@@ -79,6 +72,14 @@ export class PlayerComponent implements OnInit {
     this.enablePlayBtn = false;
     this.ngOnInit();
     this.onBAPSelectCall();
+
+    if(this.searchContentList.mimeType === 'video/mp4' || this.searchContentList.mimeType ==='video/webm') {
+      this.loadVideoPlayer()
+    } else if(this.searchContentList.mimeType === 'application/pdf') {
+      this.loadPDFPlayer()
+    } else {
+      alert("unable to player ")
+    }
   }
   onBAPSelectCall() {
     let reqBody = {
