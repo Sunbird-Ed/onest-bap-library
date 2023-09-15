@@ -53,8 +53,11 @@ export class SbOnestComponent implements OnInit {
     let providerName = '';
     this.searchContentList = [];
     this.loading = true;
-    this.bapService.onBAPSearchCall('https://staging.sunbirded.org/onest/bap/search?keyword=' + this.searchQuery).subscribe((res: any) => {
-      itemsList = res.data.filter((resData: any) => resData?.message?.catalog?.providers[0]?.id === "sunbird-ed-bpp")
+    this.bapService.onBAPSearchCall('https://staging.sunbirded.org/onest/bap/search?keyword=' + this.searchQuery + `&t=${Date.now()}`).subscribe((res: any) => {
+      let itemsListSunbird = res.data.filter((resData: any) => resData?.message?.catalog?.providers[0]?.id === "sunbird-ed-bpp")
+      let itemsListEnableIndia = res.data.filter((resData: any) => resData?.message?.catalog?.providers[0]?.id === "enable-india-bpp")
+      itemsList = [...itemsListSunbird, ...itemsListEnableIndia]
+      console.log(itemsList)
       if (!itemsList) {
         this.loading = false;
         this.onestSnackBar.open('No Provider found !!!', 'Close', {
@@ -69,7 +72,7 @@ export class SbOnestComponent implements OnInit {
         itemsList = itemsList[0]?.message?.catalog?.providers[0]?.items;
         console.log('provider:', providerName);
         itemsList.map((contentRes: any) => {
-          let mimeType = _.find(contentRes?.tags[0]?.list, (o: any) => { return o.descriptor?.name == "mimeType"; })['value']
+          let mimeType = contentRes?.descriptor?.media_files[0]['mimetype']
           let content = {
             identifier: contentRes?.id,
             title: contentRes?.descriptor?.name,
@@ -78,7 +81,7 @@ export class SbOnestComponent implements OnInit {
             price: contentRes.price.currency + ' : ' + contentRes.price.value,
             itemId: contentRes?.id,
             // artifactUrl: contentRes?.descriptor?.media,
-            artifactUrl: contentRes?.descriptor.images[0].url,
+            artifactUrl: contentRes?.descriptor.media_files[0]['value'],
             mimeType,
             provider: providerName,
             tag: contentRes?.tags[0]?.list,

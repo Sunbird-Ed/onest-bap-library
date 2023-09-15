@@ -72,6 +72,32 @@ export class PlayerComponent implements OnInit {
     this.enablePlayBtn = false;
     this.ngOnInit();
     this.onBAPSelectCall();
+    this.onBAPInitCall();
+    this.onBAPConfirmCall();
+  }
+  onBAPInitCall() {
+    let reqBody = {
+      transaction_id: this.searchContentList?.transaction_id,
+      bpp_uri: this.searchContentList?.bpp_uri,
+      bpp_id: this.searchContentList.bpp_id,
+      item_id: this.searchContentList.identifier,
+      provider_id: this.searchContentList?.provider
+    }
+    this.bapService.onBAPSelectCall('https://staging.sunbirded.org/onest/bap/init', reqBody).subscribe(selResData => {
+      console.log('init', selResData);
+    });
+  }
+  onBAPConfirmCall() {
+    let reqBody = {
+      transaction_id: this.searchContentList?.transaction_id,
+      bpp_uri: this.searchContentList?.bpp_uri,
+      bpp_id: this.searchContentList.bpp_id,
+      item_id: this.searchContentList.identifier,
+      provider_id: this.searchContentList?.provider
+    }
+    this.bapService.onBAPSelectCall('https://staging.sunbirded.org/onest/bap/confirm', reqBody).subscribe(selResData => {
+      console.log('init', selResData);
+    });
   }
   onBAPSelectCall() {
     let reqBody = {
@@ -82,11 +108,15 @@ export class PlayerComponent implements OnInit {
       provider_id: this.searchContentList?.provider
     }
     this.bapService.onBAPSelectCall('https://staging.sunbirded.org/onest/bap/select', reqBody).subscribe(selResData => {
-      console.log('seelct', selResData.data.message.order.items[0].descriptor.media_files[0].mimetype);
+      console.log('seelct', selResData);
       console.log('this.searchContentList.mimeType', this.searchContentList.mimeType);
-      this.searchContentList.mimeType = selResData?.data?.message?.order?.items[0]?.descriptor?.media_files[0]?.mimetype;
-
-      this.searchContentList.artifactUrl = selResData?.data?.message?.order?.items[0]?.descriptor?.media_files[0]?.url;
+      if(selResData?.data?.message?.order?.items[0]?.descriptor?.media_files[0]?.mimetype ) {
+        this.searchContentList.mimeType = selResData?.data?.message?.order?.items[0]?.descriptor?.media_files[0]?.mimetype 
+      }
+      
+      if(selResData?.data?.message?.order?.items[0]?.descriptor?.media_files[0]?.url) {
+        this.searchContentList.artifactUrl = selResData?.data?.message?.order?.items[0]?.descriptor?.media_files[0]?.url;
+      }
       console.log('this.searchContentList.artifactUrl', this.searchContentList.artifactUrl)
       if (this.searchContentList.mimeType === 'video/mp4' || this.searchContentList.mimeType === 'video/webm') {
         this.loadVideoPlayer()
